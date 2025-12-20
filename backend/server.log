@@ -1,0 +1,5 @@
+[dotenv@17.2.3] injecting env (3) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Server running on port 5000
+MongoDB Connected
+Register Request: { username: 'testuser', email: 'test@example.com', role: undefined }
+User saved successfully: new ObjectId('6945688e9b188f2904cf673e')
