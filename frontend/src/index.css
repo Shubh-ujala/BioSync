@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-dark: #050505;
+  --color-bg-card: #121212;
+  --color-bg-card-hover: #1E1E1E;
+
+  --color-primary: #c084fc;
+  --color-secondary: #2dd4bf;
+  --color-accent: #fb7185;
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-danger: #f87171;
+
+  --color-text-main: #ffffff;
+  --color-text-muted: #a1a1aa;
+
+  --color-border-color: #27272a;
+
+  --font-outfit: 'Outfit', sans-serif;
+
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+}
+
+body {
+  @apply bg-bg-dark text-text-main font-outfit overflow-x-hidden;
+}
+
+/* Custom Utilities for Glassmorphism */
+@utility glass {
+  @apply bg-bg-card border border-border-color rounded-lg;
+}
+
+@utility btn-primary {
+  @apply bg-primary text-black px-5 py-2.5 rounded-md font-semibold inline-flex items-center gap-2 transition-all hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer;
+}
+
+@utility btn-glass {
+  @apply bg-white/5 border border-border-color text-text-main px-6 py-2.5 rounded-md font-medium cursor-pointer transition-colors hover:bg-white/10 hover:border-text-muted;
+}
+
+@utility page-container {
+  @apply pt-28 px-10 min-h-screen;
+}
+
+@utility flex-between {
+  @apply flex justify-between items-end;
+}
+
+@utility icon {
+  @apply w-6 h-6 drop-shadow-[0_0_5px_currentColor];
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
