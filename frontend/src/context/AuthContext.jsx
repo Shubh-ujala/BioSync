@@ -10,8 +10,10 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token');
         const username = localStorage.getItem('username');
         const role = localStorage.getItem('role');
+        const id = localStorage.getItem('id');
+        const phone = localStorage.getItem('phone');
         if (token && username) {
-            setUser({ username, role, token });
+            setUser({ username, role, token, id, phone });
         }
         setLoading(false);
     }, []);
@@ -20,13 +22,17 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', token);
         localStorage.setItem('username', userData.username);
         localStorage.setItem('role', userData.role);
-        setUser({ username: userData.username, role: userData.role, token });
+        localStorage.setItem('id', userData.id);
+        localStorage.setItem('phone', userData.phone || '');
+        setUser({ ...userData, token });
     };
 
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         localStorage.removeItem('role');
+        localStorage.removeItem('id');
+        localStorage.removeItem('assignedDoctor');
         setUser(null);
     };
 

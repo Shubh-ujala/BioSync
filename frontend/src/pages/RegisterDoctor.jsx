@@ -1,38 +1,50 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, FileText, Upload } from 'lucide-react';
 
-const Register = () => {
+const RegisterDoctor = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
-        phone: ''
     });
+    const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+        setFileName(e.target.files[0] ? e.target.files[0].name : '');
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const data = new FormData();
+        data.append('username', formData.username);
+        data.append('email', formData.email);
+        data.append('password', formData.password);
+        data.append('role', 'doctor');
+        if (file) {
+            data.append('verificationDocument', file);
+        }
+
         try {
             const res = await fetch('http://localhost:5001/api/auth/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
+                body: data
             });
-            const data = await res.json();
+            const resData = await res.json();
             if (res.ok) {
-                localStorage.setItem('token', data.token);
-                const role = data.user.role;
-                if (role === 'doctor') navigate('/doctor-dashboard');
-                else navigate('/dashboard');
+                localStorage.setItem('token', resData.token);
+                alert('Doctor Registration Successful! Please wait for verification.');
+                navigate('/doctor-dashboard');
             } else {
-                alert(data.msg || 'Registration Failed');
+                alert(resData.msg || 'Registration Failed');
             }
         } catch (err) {
             console.error(err);
@@ -43,27 +55,17 @@ const Register = () => {
     return (
         <div className="page-container flex items-center justify-center min-h-[calc(100vh-70px)]">
             <div className="w-full max-w-[400px] p-10 glass">
-                <h2 className="text-3xl font-bold text-center mb-8">Create Account</h2>
+                <h2 className="text-3xl font-bold text-center mb-2">Doctor Registration</h2>
+                <p className="text-center text-text-muted text-sm mb-8">Join our medical network</p>
+
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                     <div className="relative">
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
                         <input
                             type="text"
                             name="username"
-                            placeholder="Username"
+                            placeholder="Full Name"
                             value={formData.username}
-                            onChange={handleChange}
-                            className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-11 pr-3 text-white outline-none focus:border-primary transition-colors"
-                            required
-                        />
-                    </div>
-                    <div className="relative">
-                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
-                        <input
-                            type="tel"
-                            name="phone"
-                            placeholder="Phone Number"
-                            value={formData.phone}
                             onChange={handleChange}
                             className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-11 pr-3 text-white outline-none focus:border-primary transition-colors"
                             required
@@ -94,20 +96,42 @@ const Register = () => {
                         />
                     </div>
 
+
+
+                    <div className="relative">
+                        <input
+                            type="file"
+                            id="doc-upload"
+                            onChange={handleFileChange}
+                            className="hidden"
+                            accept=".pdf,.jpg,.jpeg,.png"
+                            required
+                        />
+                        <label
+                            htmlFor="doc-upload"
+                            className={`flex items-center justify-center gap-2 w-full border border-dashed rounded-lg py-3 cursor-pointer transition-colors ${file ? 'border-primary bg-primary/10 text-primary' : 'border-white/10 bg-white/5 text-text-muted hover:border-white/30'}`}
+                        >
+                            {file ? <FileText className="w-5 h-5" /> : <Upload className="w-5 h-5" />}
+                            <span className="text-sm truncate max-w-[200px]">{fileName || "Upload Medical License"}</span>
+                        </label>
+                    </div>
+
                     <button type="submit" className="btn-primary w-full justify-center mt-2.5">
-                        Get Started <ArrowRight className="w-6 h-6 drop-shadow-[0_0_5px_currentColor]" />
+                        Submit for Verification <ArrowRight className="w-6 h-6 drop-shadow-[0_0_5px_currentColor]" />
                     </button>
 
-                    <p className="text-center text-text-muted text-sm mt-5">
-                        Already have an account? <Link to="/login" className="text-primary underline">Login</Link>
-                    </p>
-                    <p className="text-center text-text-muted text-sm mt-2">
-                        Are you a doctor? <Link to="/register-doctor" className="text-primary underline">Register here</Link>
-                    </p>
+                    <div className="flex flex-col gap-2 mt-5 text-center text-sm">
+                        <p className="text-text-muted">
+                            Not a doctor? <Link to="/register" className="text-primary underline">Patient Registration</Link>
+                        </p>
+                        <p className="text-text-muted">
+                            Already have an account? <Link to="/login" className="text-primary underline">Login</Link>
+                        </p>
+                    </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
-export default Register;
+export default RegisterDoctor;

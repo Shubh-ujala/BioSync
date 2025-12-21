@@ -17,14 +17,16 @@ const Navbar = () => {
             <div className="flex items-center gap-2.5 text-2xl font-bold">
                 <Activity className="text-primary w-6 h-6 drop-shadow-[0_0_5px_currentColor]" />
                 <Link to="/" className="text-text-main">
-                    Bio<span className="text-primary">Sync</span>
+                    Bio<span className="text-primary">Pulse</span>
                 </Link>
             </div>
 
             <div className="flex items-center gap-8">
                 <Link to="/" className="text-text-muted font-medium hover:text-text-main transition-colors">Home</Link>
                 {user && user.role === 'admin' ? (
-                    <Link to="/admin-dashboard" className="text-text-muted font-medium hover:text-text-main transition-colors">Admin</Link>
+                    <Link to="/admin-dashboard" className="text-text-muted font-medium hover:text-text-main transition-colors">Admin Dashboard</Link>
+                ) : user && user.role === 'doctor' ? (
+                    <Link to="/doctor-dashboard" className="text-text-muted font-medium hover:text-text-main transition-colors">Doctor Dashboard</Link>
                 ) : (
                     <Link to="/dashboard" className="text-text-muted font-medium hover:text-text-main transition-colors">Dashboard</Link>
                 )}

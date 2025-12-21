@@ -29,8 +29,15 @@ const Login = () => {
             const data = await res.json();
             if (res.ok) {
                 login(data.user, data.token);
+
+                if (data.user.assignedDoctor) {
+                    localStorage.setItem('assignedDoctor', data.user.assignedDoctor);
+                }
+
                 if (data.user.role === 'admin') {
                     navigate('/admin-dashboard');
+                } else if (data.user.role === 'doctor') {
+                    navigate('/doctor-dashboard');
                 } else {
                     navigate('/dashboard');
                 }
