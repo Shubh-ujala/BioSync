@@ -6,7 +6,6 @@ require('dotenv').config();
 const createAdmin = async () => {
     try {
         console.log('Connecting to MongoDB...');
-        // Fallback to local string if env is missing, but env should work
         const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/healthcare_system';
 
         await mongoose.connect(uri);
@@ -39,7 +38,6 @@ const createAdmin = async () => {
     } catch (err) {
         console.error('Script Error:', err);
     } finally {
-        // Force close connection to exit script
         await mongoose.connection.close();
         process.exit(0);
     }
