@@ -13,7 +13,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="fixed top-0 left-0 right-0 h-[70px] bg-black/80 backdrop-blur-md flex justify-between items-center px-10 border-b border-border-color z-50">
+        <nav className="fixed top-0 left-0 right-0 h-17.5 bg-black/80 backdrop-blur-md flex justify-between items-center px-10 border-b border-border-color z-50">
             <div className="flex items-center gap-2.5 text-2xl font-bold">
                 <Activity className="text-primary w-6 h-6 drop-shadow-[0_0_5px_currentColor]" />
                 <Link to="/" className="text-text-main">

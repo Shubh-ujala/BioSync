@@ -14,7 +14,7 @@ router.get('/doctors', async (req, res) => {
 
 router.put('/assign-doctor', async (req, res) => {
     const { doctorId, token } = req.body;
-    const { doctorId, token } = req.body;
+
 
     const jwt = require('jsonwebtoken');
     let userId;
