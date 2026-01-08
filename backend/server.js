@@ -1,3 +1,5 @@
+// these are the imports which we have to do otherwise we are not able to use the libraries
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
